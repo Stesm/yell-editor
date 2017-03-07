@@ -21,14 +21,14 @@ class Rect extends Figure {
         );
 
         $this->setColor(0,0,0);
-        for($d = 0; $d <= $this->border_size; $d++)
-            imagerectangle(
-                $image,
-                $this->position['x'] + $d,
-                $this->position['y'] + $d,
-                ($this->position['x'] - $this->size['x'] - $d),
-                ($this->position['y'] - $this->size['y'] - $d),
-                $this->getColor($image)
-            );
+        imagesetthickness($image, $this->border_size);
+        imagerectangle(
+            $image,
+            $this->position['x'],
+            $this->position['y'],
+            $this->position['x'] - $this->size['x'],
+            $this->position['y'] - $this->size['y'],
+            $this->getColor($image)
+        );
     }
 }

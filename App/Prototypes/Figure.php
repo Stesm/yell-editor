@@ -1,7 +1,7 @@
 <?
 namespace App\Prototypes;
 
-class Figure implements \App\Interfaces\Figure {
+abstract class Figure implements \App\Interfaces\Figure {
 
     protected $position = [
         'x' => 0,   'y' => 0
@@ -25,6 +25,19 @@ class Figure implements \App\Interfaces\Figure {
             $this->position['y'],
             $this->radius * 2,
             $this->radius * 2,
+            $this->getColor($image)
+        );
+
+        $this->setColor(0,0,0);
+        imagesetthickness($image, $this->border_size);
+        imagearc(
+            $image,
+            $this->position['x'],
+            $this->position['y'],
+            $this->radius * 2,
+            $this->radius * 2,
+            0,
+            360,
             $this->getColor($image)
         );
     }
