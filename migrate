@@ -1,0 +1,31 @@
+<?
+use \Core\Core;
+use \Core\Helpers\Migrator;
+define('APP_ROOT', dirname(__FILE__));
+
+spl_autoload_register(function($class){
+    if(is_file($path = str_replace('\\', '/', APP_ROOT."/{$class}.php"))){
+        require_once($path);
+    }else
+        die("Class {$class} not found in path {$path}");
+});
+
+Core::load();
+
+if(count($argv) > 1){
+    /** @var \Core\Helpers\Migrator $migrator */
+    $migrator = new Migrator();
+    $migrator->init();
+
+    if(in_array('do', $argv))
+        $migrator->migrate();
+    elseif(in_array('rollback', $argv))
+        $migrator->rollback();
+    elseif(in_array('make', $argv)){
+        if(isset($argv[2])){
+            $migrator->make($argv[2]);
+        }else
+            echo "\033[1;31mPlease set migration name after 'make'\033[0m\n";
+    }else
+        echo "\033[1;31mUndefined method '{$argv[1]}'!\033[0m\n";
+}
