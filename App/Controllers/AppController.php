@@ -71,7 +71,12 @@ class AppController {
         imagefilledrectangle($image, 0, 0, $this->canvas_size['x'], $this->canvas_size['y'], $color);
 
         if(count($data)) foreach ($data as $figure){
-            if(!array_key_exists('type', $figure) || !class_exists($fig_class = "$class_namespace{$figure['type']}"))
+            if(!array_key_exists('type', $figure))
+                continue;
+
+            $figure['type'] = strtoupper(substr($figure['type'], 0, 1)).strtolower(substr($figure['type'], 1));
+
+            if(!class_exists($fig_class = "$class_namespace{$figure['type']}"))
                 continue;
 
             /** @var Figure $fig */
